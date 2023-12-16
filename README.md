@@ -33,4 +33,4 @@ Description
 [license-shield]: https://img.shields.io/github/license/gy-xinchen/PAHNet.svg?style=flat-square
 [license-url]: https://github.com/gy-xinchen/PAHNet/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/shaojintian
+[linkedin-url]: https://linkedin.com/in/gy-xinchen
