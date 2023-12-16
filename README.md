@@ -12,7 +12,28 @@ Description
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
+### File directory description
+eg:
 
+```
+filetree 
+├── ARCHITECTURE.md
+├── LICENSE.txt
+├── README.md
+├── /account/
+├── /bbs/
+├── /docs/
+│  ├── /rules/
+│  │  ├── backend.txt
+│  │  └── frontend.txt
+├── manage.py
+├── /oa/
+├── /static/
+├── /templates/
+├── useless.md
+└── /util/
+
+```
 
 
 
