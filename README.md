@@ -12,6 +12,14 @@ Description
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
+<p align="center">
+  <a href="https://github.com/gy-xinchen/PAHNet/">
+    <img src="imgs/framework.svg" alt="Logo" width="800" height="400">
+  </a>
+
+</p>
+
+
 ### File directory description
 eg:
 
