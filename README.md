@@ -1,7 +1,6 @@
 
 
 # PAHNet: A pulmonary arterial hypertension detection network based on cine cardiac magnetic resonance images using a hybrid strategy of adaptive triplet and binary cross-entropy losses
-Description
 
 <!-- PROJECT SHIELDS -->
 
@@ -11,6 +10,10 @@ Description
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
+
+**Description**
+
+Pulmonary arterial hypertension (PAH) detection by cine cardiac magnetic resonance(CMR) images is one of the most important methods for noninvasive screening potential patients.  Machine learning(ML) can identify cine CMR image features to alert radiologist to the presence of PAH.  However, detecting mild PAH still poses a significant challenge. In this paper, we propose a convolutional neural network(CNN) based detection network with a hybrid strategy of adaptive triplet and binary cross-entropy losses(HSATBCL) to detect PAH from cine CMR images called PAHNet. Unlike previous research, our approach involves direct extraction of deep features from cine CMR images for PAH diagnosis. Meanwhile, we design HSATBCL to optimize model detection performance by building a triplet contrastive learning idea to learning mild PAH deep features. In internal validating environment, experiments show that the PAHNet could achieve an average Area Under Curve(AUC) value of 0.964, an accuracy of 0.912, and an F1-score of 0.884 in comparison with two state-of-the-art ML models and four typical deep learning CNN models. PAHNet also achieve the average AUC value of 0.828 by performing transfer learning on a public PAH dataset (Shef179-PAH dataset) using model weights. Experimental results indicate that the proposed PAHNet achieves superior performance to state-of-the-art models in PAH detection. Thus, it has great potential to reduce the misdiagnosis of PAH using cine CMR images in clinical practice.
 
 <p align="center">
   <a href="https://github.com/gy-xinchen/PAHNet/">
