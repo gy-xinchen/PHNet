@@ -17,7 +17,7 @@ Pulmonary arterial hypertension (PAH) detection by cine cardiac magnetic resonan
 
 <p align="center">
   <a href="https://github.com/gy-xinchen/PAHNet/">
-    <img src="imgs/framework.svg" alt="Logo" width="800" height="400">
+    <img src="imgs/framework.svg" alt="Logo" width="1000" height="500">
   </a>
 
 </p>
