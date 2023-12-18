@@ -60,7 +60,10 @@ The following PAHNet was created by [xinchen yuan](https://github.com/gy-xinchen
 - CPU or NVIDIA GPU + CUDA CuDNN
 
 ## Getting Started
-
+-You can install all the dependencies by
+```bash
+pip install -r requirements.txt
+```
 
 ## [Datasets]
 create a directory below and add your own datasets.
