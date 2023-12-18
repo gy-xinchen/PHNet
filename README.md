@@ -46,33 +46,32 @@ The following PAHNet was created by [xinchen yuan](https://github.com/gy-xinchen
 
 
 
-### File directory description
-eg:
+## [Datasets]
+create a directory below and add your own datasets.
 
+choosed slice cine CMR images have same size of 25x224x224.
 ```
-filetree 
-├── ARCHITECTURE.md
-├── LICENSE.txt
-├── README.md
-├── /account/
-├── /bbs/
-├── /docs/
-│  ├── /rules/
-│  │  ├── backend.txt
-│  │  └── frontend.txt
-├── manage.py
-├── /oa/
-├── /static/
-├── /templates/
-├── useless.md
-└── /util/
-
-```
-
-
-
-
-
+Random_AorticData：
+|─train
+│      patient000.nii.gz 
+│      patient001.nii.gz
+│      patient002.nii.gz
+│      ...
+│
+├─internal val
+│      patient000.nii.gz 
+│      patient001.nii.gz
+│      patient002.nii.gz
+│      ...
+│
+├─external test
+│      patient000.nii.gz 
+│      patient001.nii.gz
+│      patient002.nii.gz
+│      ...
+│
+└─train_data.csv
+└─val_data.csv
 
 
 <!-- links -->
