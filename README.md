@@ -51,20 +51,20 @@ create a directory below and add your own datasets.
 
 choosed slice cine CMR images have same size of 25x224x224.
 ```
-Random_AorticData：
+Random_cine_CMR_Data：
 |─train
 │      patient000.nii.gz 
 │      patient001.nii.gz
 │      patient002.nii.gz
 │      ...
 │
-├─internal val
+├─internal_val
 │      patient000.nii.gz 
 │      patient001.nii.gz
 │      patient002.nii.gz
 │      ...
 │
-├─external test
+├─external_test
 │      patient000.nii.gz 
 │      patient001.nii.gz
 │      patient002.nii.gz
