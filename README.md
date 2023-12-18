@@ -28,11 +28,13 @@ The code was inspired by [AdaTriplet](https://github.com/Oulu-IMEDS/AdaTriplet) 
 
 **Note**: The current software works well with PyTorch 1.4.0+.
 
-The 2D U-Net was a older nnU-Net created by [FabianIsensee](https://github.com/MIC-DKFZ/nnUNet/tree/nnunetv1), it was used to biventricular segmentation from cine CMR images.
+The 2D nnU-Net was a older nnU-Net created by [FabianIsensee](https://github.com/MIC-DKFZ/nnUNet/tree/nnunetv1), it was used to biventricular segmentation with the 2017 Automated Cardiac Diagnosis Challenge(ACDC) dataset pre-trained weight from cine CMR images.
+
+The following PAHNet was created by [xinchen yuan](https://github.com/gy-xinchen), it contains a biventricular segmentation module and DenseNet based Classification module.
 
 <p align="center">
   <a href="https://github.com/gy-xinchen/PAHNet/">
-    <img src="imgs/framework.svg" alt="Logo" width="1000" height="500">
+    <img src="imgs/framework.svg" alt="Logo" width="1000" height="400">
   </a>
 
 </p>
