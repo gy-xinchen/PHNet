@@ -39,6 +39,12 @@ The following PAHNet was created by [xinchen yuan](https://github.com/gy-xinchen
 
 </p>
 
+## Prerequisites
+- Linux or Windows (Pycharm + Anaconda)
+- Python 3
+- CPU or NVIDIA GPU + CUDA CuDNN
+
+
 
 ### File directory description
 eg:
