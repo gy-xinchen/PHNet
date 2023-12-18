@@ -25,7 +25,7 @@ Pulmonary arterial hypertension (PAH) detection by cine cardiac magnetic resonan
 ## PAHNet in PyTorch
 We provide PyTorch implementations for PAHNet.
 The code was inspired by [AdaTriplet](https://github.com/Oulu-IMEDS/AdaTriplet) and modified by [xinchen yuan](https://github.com/gy-xinchen).
-
+**Note**: The current software works well with PyTorch 1.4.0+.
 
 <p align="center">
   <a href="https://github.com/gy-xinchen/PAHNet/">
