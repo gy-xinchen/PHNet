@@ -1,0 +1,52 @@
+
+#  hydra:
+#    run:
+#      dir: ./outputs/${comment}/${now:%Y-%m-%d}/
+  comment: ${method}_margin_${margin.m_loss}_wi_${loss.w_lambda}_normIF_${normalize_img_features}
+  csv_path: G:\CMR-res\muti_center_data0927\mix_train_data\slice05_224x224
+  train_csv_path: slice05_train_224x224.csv
+  val_csv_path: slice05_val_224x224.csv
+  save_path:
+    path: G:\CMR-res\github_PAHNet\Dataword
+    weight: weight
+    png: png
+    excle: excle
+    logger: logger
+    file_name: lr3_10-4
+  adapt_loss_weight:
+    weight1: 0.33
+    weight2: 1
+  lr: 1e-4
+  device: "cuda:0"
+  batch_size: 8
+  model: DenseNet121()
+  drop_rate: 0.3
+  epochs: 50
+  smoothing: 0.3
+  distance_loss: cosine
+  method: AdaTriplet-AM
+  type_of_triplets: semihard
+  loss_identity_func: LB
+  num_workers: 8
+  automargin_mode: normal
+  img_out_features: 128
+  seed: 42
+  margin:
+    delta_p: 0
+    delta_n: 0
+    beta: 0
+    m_loss: 0.25
+  loss:
+    w_lambda: 0.5
+    w_neg: 1
+  k_param_automargin: 2
+  k_n_param_autobeta: 2
+  k_p_param_autobeta: 2
+  normalize_img_features: True
+  sampler:
+      samplers_per_class: 4
+  vars:
+      best_ap: -1e8
+      best_cmc: -1e8
+  save_distribution: False
+  eval_dismat_algorithm: euclidean
