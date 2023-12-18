@@ -64,6 +64,12 @@ The following PAHNet was created by [xinchen yuan](https://github.com/gy-xinchen
 ```bash
 pip install -r requirements.txt
 ```
+- Clone this repo:
+```bash
+git clone https://github.com/gy-xinchen/PAHNet
+cd PAHNet
+```
+- For Anaconda users, you can use pip to install PyTorch and other libraries.
 
 ## [Datasets]
 create a directory below and add your own datasets.
