@@ -19,7 +19,7 @@ We design HSATBCL to optimize model detection performance by building a triplet 
 
 <p align="center">
   <a href="https://github.com/gy-xinchen/PAHNet/">
-    <img src="imgs/Average_ROC_gai.svg" alt="Logo" width="800" height="500">
+    <img src="imgs/Average_ROC.svg" alt="Logo" width="800" height="500">
   </a>
 
 </p>
