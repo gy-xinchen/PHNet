@@ -1,6 +1,6 @@
 
 
-# PAHNet: A pulmonary arterial hypertension detection network based on cine cardiac magnetic resonance images using a hybrid strategy of adaptive triplet and binary cross-entropy losses
+# PHNet: A pulmonary hypertension detection network based on cine cardiac magnetic resonance images using a hybrid strategy of adaptive triplet and binary cross-entropy losses
 
 <!-- PROJECT SHIELDS -->
 
@@ -13,7 +13,8 @@
 
 **Description**
 
-Pulmonary arterial hypertension (PAH) detection by cine cardiac magnetic resonance(CMR) images is one of the most important methods for noninvasive screening potential patients.  Machine learning(ML) can identify cine CMR image features to alert radiologist to the presence of PAH.  However, detecting mild PAH still poses a significant challenge. In this paper, we propose a convolutional neural network(CNN) based detection network with a hybrid strategy of adaptive triplet and binary cross-entropy losses(HSATBCL) to detect PAH from cine CMR images called PAHNet. Unlike previous research, our approach involves direct extraction of deep features from cine CMR images for PAH diagnosis. Meanwhile, we design HSATBCL to optimize model detection performance by building a triplet contrastive learning idea to learning mild PAH deep features. In internal validating environment, experiments show that the PAHNet could achieve an average Area Under Curve(AUC) value of 0.964, an accuracy of 0.912, and an F1-score of 0.884 in comparison with two state-of-the-art ML models and four typical deep learning CNN models. PAHNet also achieve the average AUC value of 0.828 by performing transfer learning on a public PAH dataset (Shef179-PAH dataset) using model weights. Experimental results indicate that the proposed PAHNet achieves superior performance to state-of-the-art models in PAH detection. Thus, it has great potential to reduce the misdiagnosis of PAH using cine CMR images in clinical practice.
+Pulmonary hypertension (PH) detection by cine cardiac magnetic resonance(CMR) images is one of the most crucial methods for noninvasive screening of potential patients. Machine learning(ML) can identify cine CMR image features to alert radiologists to the presence of PH. However, detecting mild PH still poses a significant challenge. In this paper, we propose a nnU-Net-based segmentation network and a convolutional neural network(CNN) based detection network with a Hybrid Strategy of Adaptive Triplet and Binary Cross-entropy Losses(HSATBCL) to detect PH from cine CMR images called PHNet. Unlike previous research, our approach directly extracts deep features from cine CMR images for PH diagnosis.
+We design HSATBCL to optimize model detection performance by building a triplet contrastive learning to pay attention to mild PH deep features. Experiments show that the PHNet could achieve an average area under the curve(AUC) value of 0.964, an accuracy of 0.912, and an F1-score of 0.884 in the internal validating environment. PHNet also achieves the average AUC value of 0.828 by performing transfer learning on a public PH dataset (Shef179-PH dataset) using model weights, indicating that the proposed PHNet performs superior to state-of-the-art cine CMR PH detection models. Thus, PHNet has great potential to reduce the misdiagnosis of PH using cine CMR images in clinical practice.
 
 
 <p align="center">
