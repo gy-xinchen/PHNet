@@ -67,8 +67,8 @@ pip install -r requirements.txt
 ```
 - Clone this repo:
 ```bash
-git clone https://github.com/gy-xinchen/PAHNet
-cd PAHNet
+git clone https://github.com/gy-xinchen/PHNet
+cd PHNet
 ```
 - For Anaconda users, you can use pip to install PyTorch and other libraries.
 
