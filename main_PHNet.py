@@ -3,26 +3,29 @@ import argparse
 import csv
 from CreateNiiDataset import CreateNiiDataset
 from pytorch_metric_learning import distances, reducers, losses, miners
-from net_hub.Densenet3D_embedding import densenet121
+from PHNet.net_hub.Densenet3D_embedding import densenet121
 import torch.nn as nn
 from torch import optim
 from tqdm import tqdm
 import sys
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.metrics import auc, roc_curve, roc_auc_score
+from sklearn.metrics import auc, roc_curve
 import os
-from model_utils.losses.losses import TripletCustomMarginLoss, LowerBoundLoss
-from model_utils.miners.triplet_automargin_miner import TripletAutoParamsMiner
-from model_utils.methods import MetricLearningMethods
+from PHNet.modlel_utils.losses.losses import TripletCustomMarginLoss, HingeLoss, LowerBoundLoss, LogSumExpLoss
+from torch.nn import CrossEntropyLoss, BCEWithLogitsLoss, CosineEmbeddingLoss, BCELoss
+from PHNet.modlel_utils.miners.triplet_automargin_miner import TripletAutoMarginMiner, TripletAdaptiveMiner, TripletSCTMiner, \
+    TripletAutoParamsMiner
+from PHNet.modlel_utils.miners.triplet_margin_miner import TripletMarginMiner
+from PHNet.modlel_utils.methods import MetricLearningMethods
 import pandas as pd
 from openpyxl import Workbook
 from openpyxl.utils.dataframe import dataframe_to_rows
 import hydra
 import torchio as tio
-from model_utils.get_logger import get_logger
-from model_utils.calculate_auc_ci import calculate_auc_ci
-from model_utils.LabelsmoothingBCE import LabelSmoothingLoss
+from PHNet.modlel_utils.get_logger import get_logger
+from PHNet.modlel_utils.calculate_auc_ci import calculate_auc_ci
+from PHNet.modlel_utils.LabelsmoothingBCE import LabelSmoothingLoss
 
 
 
@@ -50,7 +53,7 @@ def main():
     with open(input_train_5fold_csv,'rt') as csvfile:
         reader = csv.reader(csvfile)
         for i,rows in enumerate(reader):
-            if i == Fold:  # [i == 1,2,3,4,5 ====> 1,2,3,4,5 Fold]
+            if i == Fold:  # [i == 1,2,3,4,5 ====> 1,2,3,4,5折]
                 row_train = rows
                 while '' in row_train:
                     row_train.remove('')
@@ -58,7 +61,7 @@ def main():
     with open(input_val_5fold_csv,'rt') as csvfile:
         reader = csv.reader(csvfile)
         for i,rows in enumerate(reader):
-            if i == Fold:  # [i == 1,2,3,4,5 ====> 1,2,3,4,5 Fold]
+            if i == Fold:  # [i == 1,2,3,4,5 ====> 1,2,3,4,5折]
                 row_val = rows
                 while '' in row_val:
                     row_val.remove('')
@@ -73,7 +76,7 @@ def main():
     val_num   = len(val_dataset)
     print("transform data done! ")
     ######################################################################################
-    # data augument
+    # 定义增强策略
     transform = tio.Compose([
         tio.RandomFlip(p=0.3),
         tio.RandomAffine(p=0.3),
@@ -109,8 +112,45 @@ def main():
     loss_function2 = LabelSmoothingLoss(num_classes=2, epsilon=cfg.smoothing)
     loss_function3 = nn.CrossEntropyLoss()
     loss_func = {'Triplet': TripletCustomMarginLoss(margin=cfg.margin.m_loss, distance=distance, reducer=reducer),
-                 'LowerBoundLoss': LowerBoundLoss()}
-    mining_func = {"AutoParams": TripletAutoParamsMiner(distance=distance, margin_init=cfg.margin.m_loss,
+                 'Triplet_original': losses.TripletMarginLoss(margin=cfg.margin.m_loss, distance=distance,
+                                                              reducer=reducer),
+                 'CE': CrossEntropyLoss(),
+                 'BCE': BCEWithLogitsLoss(),
+                 'HG': HingeLoss(), 'Cos': CosineEmbeddingLoss(margin=cfg.margin.m_loss),
+                 'originalBCE': BCELoss(),
+                 'LowerBoundLoss': LowerBoundLoss(),
+                 'LogSumExpLoss': LogSumExpLoss(),
+                 'SoftTriplet': losses.SoftTripleLoss(num_classes=len(train_loader) * cfg.batch_size,
+                                                      embedding_size=cfg.img_out_features, margin=cfg.margin.m_loss),
+                 'ArcFaceLoss': losses.ArcFaceLoss(num_classes=len(train_loader) * cfg.batch_size,
+                                                   embedding_size=cfg.img_out_features, margin=cfg.margin.m_loss,
+                                                   scale=64),
+                 'ContrastiveLoss': losses.ContrastiveLoss(neg_margin=cfg.margin.delta_n,
+                                                           pos_margin=cfg.margin.delta_p),
+                 'TupletLoss': losses.MultipleLosses(
+                     [losses.TupletMarginLoss(margin=cfg.margin.m_loss, distance=distance, reducer=reducer),
+                      losses.IntraPairVarianceLoss(distance=distance, reducer=reducer)], weights=[1, 0.5]),
+                 'LiftedStructureLoss': losses.LiftedStructureLoss(neg_margin=cfg.margin.delta_n,
+                                                                   pos_margin=cfg.margin.delta_p)}
+    mining_func = {
+        "TripletMargin": TripletMarginMiner(margin=cfg.margin.m_loss, beta_n=cfg.margin.beta, distance=distance,
+                                            type_of_triplets=cfg.type_of_triplets),
+        "TripletMargin_lib": miners.TripletMarginMiner(margin=cfg.margin.m_loss, distance=distance,
+                                                       type_of_triplets=cfg.type_of_triplets),
+        "Angular": miners.AngularMiner(angle=cfg.margin.m_loss),
+        "PairMargin": miners.PairMarginMiner(pos_margin=cfg.margin.delta_p, neg_margin=cfg.margin.delta_n),
+        "TripletMargin_easy": miners.TripletMarginMiner(margin=cfg.margin.m_loss, distance=distance,
+                                                        type_of_triplets='easy'),
+        "TripletMargin_auto": TripletAutoMarginMiner(distance=distance, margin=cfg.margin.m_loss,
+                                                     type_of_triplets=cfg.type_of_triplets,
+                                                     k=cfg.k_param_automargin, k_n=cfg.k_n_param_autobeta,
+                                                     mode=cfg.automargin_mode),
+        "TripletAdaptive": TripletAdaptiveMiner(distance=distance,
+                                                type_of_triplets=cfg.type_of_triplets,
+                                                k=cfg.k_param_automargin,
+                                                mode=cfg.automargin_mode),
+        "SCT": TripletSCTMiner(),
+        "AutoParams": TripletAutoParamsMiner(distance=distance, margin_init=cfg.margin.m_loss,
                                              beta_init=cfg.margin.beta,
                                              type_of_triplets=cfg.type_of_triplets,
                                              k=cfg.k_param_automargin, k_n=cfg.k_n_param_autobeta,
@@ -130,8 +170,53 @@ def main():
             raise ValueError(f'Not support this loss {cfg.loss_identity_func}')
 
         if epoch == 0:
-            if cfg.method == 'AdaTriplet-AM':
+            if cfg.method == 'TripletLSE':
+                mining_func = mining_func['TripletMargin']
+                loss_matching_func = loss_func['LogSumExpLoss']
+                loss_id_func = None
+            elif cfg.method == 'Triplet':
+                mining_func = mining_func['TripletMargin']
+                loss_matching_func = loss_func['Triplet']
+                loss_id_func = None
+            elif cfg.method == 'ArcFace':
+                mining_func = mining_func['Angular']
+                loss_matching_func = loss_func['ArcFaceLoss']
+                loss_id_func = None
+            elif cfg.method == 'SoftTriplet':
+                mining_func = mining_func['TripletMargin_lib']
+                loss_matching_func = loss_func['SoftTriplet']
+                loss_id_func = None
+            elif cfg.method == 'LiftedStructure':
+                mining_func = mining_func['PairMargin']
+                loss_matching_func = loss_func['LiftedStructureLoss']
+                loss_id_func = None
+            elif cfg.method == 'Contrastive':
+                mining_func = mining_func['PairMargin']
+                loss_matching_func = loss_func['ContrastiveLoss']
+                loss_id_func = None
+            elif cfg.method == 'SCT':
+                mining_func = mining_func['SCT']
+                loss_matching_func = loss_func['LogSumExpLoss']
+                loss_id_func = None
+            elif cfg.method == 'Triplet-AM':
+                mining_func = mining_func['TripletMargin_auto']
+                loss_matching_func = loss_func['Triplet']
+                loss_id_func = None
+            elif cfg.method == 'WAT':
+                mining_func = mining_func['TripletAdaptive']
+                mining_func.set_mode(mode='weakly')
+                loss_matching_func = loss_func['Triplet']
+                loss_id_func = None
+            elif cfg.method == 'Tuplet':
+                mining_func = mining_func['PairMargin']
+                loss_matching_func = loss_func['TupletLoss']
+                loss_id_func = None
+            elif cfg.method == 'AdaTriplet-AM':
                 mining_func = mining_func['AutoParams']
+                loss_matching_func = loss_func['Triplet']
+                loss_id_func = loss_id_selected
+            elif cfg.method == 'AdaTriplet' or cfg.method == 'ap':
+                mining_func = mining_func['TripletMargin']
                 loss_matching_func = loss_func['Triplet']
                 loss_id_func = loss_id_selected
             else:
@@ -153,11 +238,11 @@ def main():
 
             optimizer.zero_grad()
             out, out_embeddings = net(images.to(device))
-            # choose adapt triplet loss
+            # 选择三元组损失策略
             method = MetricLearningMethods(cfg, mining_func, loss_matching=loss_matching_func,
                                            loss_identity=loss_id_func)
 
-            # label smoothing
+            # 使用標簽平滑
             smoothing = cfg.smoothing
             smooth_labels = (1 - smoothing) * labels + smoothing / 2
             loss1 = method.calculate_total_loss(out_embeddings.to("cpu"), smooth_labels, epoch_id=epoch, batch_id=batch_id)
@@ -197,7 +282,7 @@ def main():
         num_correct = 0.0
         with torch.no_grad():
             step_val = 0
-            logger = get_logger(args.logger)  # training logger
+            logger = get_logger(args.logger)  # 设置训练log
             val_bar = tqdm(val_loader, file=sys.stdout)
             for val_data in val_bar:
                 step_val += 1
@@ -216,14 +301,14 @@ def main():
                 TN += torch.sum((val_labels.to(device) == 0) & (predict_y < 0.5)).item()
                 num_correct += torch.sum(predict_y > 0.5).item()
                 label_list.append(val_labels.numpy())
-                predict_list.append(y_score)
+                predict_list.append(y_score)  # 这里不能直接读predict_y，否则曲线将变成一条折线
                 val_bar.desc = "valid epoch[{}/{}]".format(epoch + 1,
                                                            epochs)
 
         label_list = np.concatenate(label_list)
         predict_list = np.concatenate(predict_list)
         val_accurate = acc / val_num
-        SE = TP / (TP + FN + 1e-7)  # avoid  0, + 1*10-7
+        SE = TP / (TP + FN + 1e-7)  # 为了防止除以0，加上1*10-7
         SP = TN / (TN + FP + 1e-7)
         PPV = TP / (TP + FP + 1e-7)
         NPV = TN / (TN + FN + 1e-7)
@@ -246,7 +331,7 @@ def main():
                 all_step=len(val_loader), loss=train_losses,val_loss=val_loss, acc=float(val_accurate), SE=SE, SP=SP,
                 PPV=PPV, NPV=NPV, F1_score=F1_score, lr=lr))
 
-        # write ROC、AUC
+        # 绘制ROC、AUC图像
         if epoch > 10:
             fpr, tpr, thersholds = roc_curve(label_list, predict_list)
             roc_auc = auc(fpr, tpr)
@@ -287,7 +372,7 @@ def main():
                 plt.yticks(np.arange(0, 1.1, 0.1))
                 plt.savefig(os.path.join(args.savefig, "{}_ROC_AUC.png".format(args.name)))
     ######################################################################################
-    # write losses
+    # 绘制loss图像
 
     fig, ax1 = plt.subplots()
     color = 'tab:red'
@@ -318,7 +403,7 @@ if __name__ == '__main__':
     for fold in range(5):
         fold_num = fold + 1
         parser = argparse.ArgumentParser()
-        parser.add_argument("--Fold", type=int, default=fold_num, help="Fold == 1,2,3,4,5 ====> 0,1,2,3,4Fold")
+        parser.add_argument("--Fold", type=int, default=fold_num, help="Fold == 1,2,3,4,5 ====> 0,1,2,3,4折")
         parser.add_argument("--save_path", type=str,
                             default=os.path.join(save_wight_path, ouput_file_name, "Fold{}.pth".format(fold_num)))
         parser.add_argument("--logger", type=str, default=os.path.join(save_logger_path, ouput_file_name, "Fold{}.txt".format(fold_num)))
