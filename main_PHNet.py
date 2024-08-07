@@ -1,3 +1,5 @@
+
+
 import torch
 import argparse
 import csv
@@ -238,11 +240,11 @@ def main():
 
             optimizer.zero_grad()
             out, out_embeddings = net(images.to(device))
-            # 选择三元组损失策略
+            # choose triplet
             method = MetricLearningMethods(cfg, mining_func, loss_matching=loss_matching_func,
                                            loss_identity=loss_id_func)
 
-            # 使用標簽平滑
+            # label smoothing
             smoothing = cfg.smoothing
             smooth_labels = (1 - smoothing) * labels + smoothing / 2
             loss1 = method.calculate_total_loss(out_embeddings.to("cpu"), smooth_labels, epoch_id=epoch, batch_id=batch_id)
@@ -282,7 +284,7 @@ def main():
         num_correct = 0.0
         with torch.no_grad():
             step_val = 0
-            logger = get_logger(args.logger)  # 设置训练log
+            logger = get_logger(args.logger)  
             val_bar = tqdm(val_loader, file=sys.stdout)
             for val_data in val_bar:
                 step_val += 1
@@ -301,14 +303,14 @@ def main():
                 TN += torch.sum((val_labels.to(device) == 0) & (predict_y < 0.5)).item()
                 num_correct += torch.sum(predict_y > 0.5).item()
                 label_list.append(val_labels.numpy())
-                predict_list.append(y_score)  # 这里不能直接读predict_y，否则曲线将变成一条折线
+                predict_list.append(y_score)  
                 val_bar.desc = "valid epoch[{}/{}]".format(epoch + 1,
                                                            epochs)
 
         label_list = np.concatenate(label_list)
         predict_list = np.concatenate(predict_list)
         val_accurate = acc / val_num
-        SE = TP / (TP + FN + 1e-7)  # 为了防止除以0，加上1*10-7
+        SE = TP / (TP + FN + 1e-7)  # add 1*10-7
         SP = TN / (TN + FP + 1e-7)
         PPV = TP / (TP + FP + 1e-7)
         NPV = TN / (TN + FN + 1e-7)
@@ -331,7 +333,7 @@ def main():
                 all_step=len(val_loader), loss=train_losses,val_loss=val_loss, acc=float(val_accurate), SE=SE, SP=SP,
                 PPV=PPV, NPV=NPV, F1_score=F1_score, lr=lr))
 
-        # 绘制ROC、AUC图像
+        
         if epoch > 10:
             fpr, tpr, thersholds = roc_curve(label_list, predict_list)
             roc_auc = auc(fpr, tpr)
@@ -372,7 +374,7 @@ def main():
                 plt.yticks(np.arange(0, 1.1, 0.1))
                 plt.savefig(os.path.join(args.savefig, "{}_ROC_AUC.png".format(args.name)))
     ######################################################################################
-    # 绘制loss图像
+    
 
     fig, ax1 = plt.subplots()
     color = 'tab:red'
@@ -403,7 +405,7 @@ if __name__ == '__main__':
     for fold in range(5):
         fold_num = fold + 1
         parser = argparse.ArgumentParser()
-        parser.add_argument("--Fold", type=int, default=fold_num, help="Fold == 1,2,3,4,5 ====> 0,1,2,3,4折")
+        parser.add_argument("--Fold", type=int, default=fold_num, help="Fold == 1,2,3,4,5 ====> 0,1,2,3,4Fold")
         parser.add_argument("--save_path", type=str,
                             default=os.path.join(save_wight_path, ouput_file_name, "Fold{}.pth".format(fold_num)))
         parser.add_argument("--logger", type=str, default=os.path.join(save_logger_path, ouput_file_name, "Fold{}.txt".format(fold_num)))
