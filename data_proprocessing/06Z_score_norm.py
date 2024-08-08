@@ -33,7 +33,7 @@ def process_folder(folder_path):
                 process_nii_file(file_path)
 
 # Specify the folder to process
-input_folder = r'D:\CMR-res\muti_center_data0927\test_qinyuan\wangfu\crop_flow\wangfu'
+input_folder = r''
 
 # Process all nii files in a folder
 process_folder(input_folder)
