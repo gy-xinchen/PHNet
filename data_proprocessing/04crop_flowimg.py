@@ -4,10 +4,10 @@ import cv2
 import numpy as np
 
 
-raw_path = r"D:\CMR-res\muti_center_data0927\test_qinyuan"
-input_diastolemask_path = r"D:\CMR-res\muti_center_data0927\test_qinyuan\wangfu\mask"
-input_flow_img = r"D:\CMR-res\muti_center_data0927\test_qinyuan\wangfu\nii"
-crop_flow_output = r"D:\CMR-res\muti_center_data0927\test_qinyuan\wangfu\crop_flow"
+raw_path = r""
+input_diastolemask_path = r""
+input_flow_img = r""
+crop_flow_output = r""
 
 diastole_nii = os.listdir(input_diastolemask_path)
 input_flow_nii = os.listdir(input_flow_img)
