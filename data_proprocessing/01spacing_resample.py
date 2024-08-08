@@ -44,6 +44,6 @@ def resample_and_save_dcm_in_folder(input_folder, output_folder, target_spacing=
                 print(f"Resampled image saved at: {output_path}")
 
 # Call the function, passing in the input folder and output folder paths
-input_folder_path = r"D:\CMR-res\muti_center_data0927\test_qinyuan"
-output_folder_path = r"D:\CMR-res\muti_center_data0927\test_qinyuan"
+input_folder_path = r""
+output_folder_path = r""
 resample_and_save_dcm_in_folder(input_folder_path, output_folder_path)
