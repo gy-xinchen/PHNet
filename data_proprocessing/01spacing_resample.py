@@ -30,7 +30,7 @@ def resample_and_save_dcm_in_folder(input_folder, output_folder, target_spacing=
                 resampler.SetOutputSpacing(target_spacing)
                 resampler.SetOutputOrigin(image.GetOrigin())
                 resampler.SetOutputDirection(image.GetDirection())
-                resampler.SetInterpolator(sitk.sitkLinear)  # 使用线性插值
+                resampler.SetInterpolator(sitk.sitkLinear)  # use linear
 
                 # Perform resampling
                 resampled_image = resampler.Execute(image)
