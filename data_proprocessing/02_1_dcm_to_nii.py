@@ -22,8 +22,8 @@ def dicoms_to_nifti(input_folder, output_file):
     print(f"Converted DICOMs to 3D NIfTI: {output_file}")
 
 # Input DICOM folder path and output NIfTI file path
-input_path = r"D:\CMR-res\muti_center_data0927\test_qinyuan\wangfu"
-output_path = r"D:\CMR-res\muti_center_data0927\test_qinyuan\wangfu\nii"
+input_path = r""
+output_path = r""
 patient_path = os.listdir(input_path)
 
 for patient_id in range(len(patient_path)):
