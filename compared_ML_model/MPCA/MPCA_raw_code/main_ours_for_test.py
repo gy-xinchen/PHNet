@@ -101,7 +101,7 @@ trainer = MPCATrainer(classifier="lr", classifier_params="auto", n_features=66) 
 label_list = np.array(label_list)
 
 n_splits = 5
-kf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=42)  # 使用分层折叠交叉验证
+kf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=42)  # use stradtifiedKfold
 
 test_accuracy = []
 test_recall = []
@@ -192,7 +192,7 @@ for train_index, test_index in kf.split(png_list, label_list):
 
 
 
-# 打印各个评估指标的结果
+
 print("lower_bound_list",lower_bound_list)
 print("upper_bound_list",upper_bound_list)
 print("Accuracy:", test_accuracy)
