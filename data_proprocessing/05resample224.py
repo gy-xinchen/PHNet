@@ -4,13 +4,11 @@ import numpy as np
 import SimpleITK as sitk
 
 # Set folder path and output path
-file_dir = r"D:\CMR-res\muti_center_data0927\test_qinyuan\wangfu\crop_flow\wangfu"
+file_dir = r""
 
 def resample_image_by_size(ori_image, target_size, mode):
     """
 
-    :param ori_imgae: itk 读取的图像
-    :param target_size: 列表形式保存的目标尺寸
     :param mode: "sitk.sitkLinear" OR "sitk.sitkNearestNeighbor"
     :return:
     """
