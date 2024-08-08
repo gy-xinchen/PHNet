@@ -54,7 +54,7 @@ def calcu_negative_predictive_value(y_true, y_pred):
     tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
     return tn / (tn + fn)
 
-# 定义args超参数
+# define args
 def arg_parse():
     """Parsing arguments"""
     parser = argparse.ArgumentParser(description="Machine learning pipeline for PAH diagnosis")
@@ -93,7 +93,7 @@ cfg.merge_from_file(args.cfg)
 cfg.freeze()
 print(cfg)
 # ----- resize -----
-img_rescaled = rescale_img_stack(png_list.copy(), scale=1)  # 将数据重采样至小尺寸
+img_rescaled = rescale_img_stack(png_list.copy(), scale=1)  # resample data
 x = np.concatenate([img_rescaled[i].reshape((1,) + img_rescaled[i].shape) for i in range(len(pah_path)+len(nopah_path))], axis=0)
 trainer = MPCATrainer(classifier="lr", classifier_params="auto", n_features=66) # cfg.PIPELINE.CLASSIFIER == linear_svm
 
