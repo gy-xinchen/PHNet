@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Read NIfTI files
-nii_file_path = r'D:\CMR-res\muti_center_data0927\test_qinyuan\wangfu\nii'
-output_path = r"D:\CMR-res\muti_center_data0927\test_qinyuan\wangfu\diastole"
+nii_file_path = r''
+output_path = r""
 patient_file = os.listdir(nii_file_path)
 for patient_id in range(len(patient_file)):
     patient_path = os.path.join(nii_file_path, patient_file[patient_id])
