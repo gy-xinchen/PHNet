@@ -5,7 +5,7 @@ import argparse
 import csv
 from CreateNiiDataset import CreateNiiDataset
 from pytorch_metric_learning import distances, reducers, losses, miners
-from PHNet.net_hub.Densenet3D_embedding import densenet121
+from PHNet.net_hub.PHNet import densenet121
 import torch.nn as nn
 from torch import optim
 from tqdm import tqdm
