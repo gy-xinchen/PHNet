@@ -38,7 +38,7 @@ We design HSATBCL to optimize model detection performance by building a triplet 
 
 </p>
 
-## PAHNet in PyTorch
+## PHNet in PyTorch
 We provide PyTorch implementations for PAHNet.
 The code was inspired by [AdaTriplet](https://github.com/Oulu-IMEDS/AdaTriplet) and modified by [xinchen yuan](https://github.com/gy-xinchen).
 
