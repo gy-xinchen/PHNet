@@ -14,20 +14,20 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.metrics import auc, roc_curve
 import os
-from PHNet.modlel_utils.losses.losses import TripletCustomMarginLoss, HingeLoss, LowerBoundLoss, LogSumExpLoss
+from PHNet.model_utils.losses.losses import TripletCustomMarginLoss, HingeLoss, LowerBoundLoss, LogSumExpLoss
 from torch.nn import CrossEntropyLoss, BCEWithLogitsLoss, CosineEmbeddingLoss, BCELoss
-from PHNet.modlel_utils.miners.triplet_automargin_miner import TripletAutoMarginMiner, TripletAdaptiveMiner, TripletSCTMiner, \
+from PHNet.model_utils.miners.triplet_automargin_miner import TripletAutoMarginMiner, TripletAdaptiveMiner, TripletSCTMiner, \
     TripletAutoParamsMiner
-from PHNet.modlel_utils.miners.triplet_margin_miner import TripletMarginMiner
-from PHNet.modlel_utils.methods import MetricLearningMethods
+from PHNet.model_utils.miners.triplet_margin_miner import TripletMarginMiner
+from PHNet.model_utils.methods import MetricLearningMethods
 import pandas as pd
 from openpyxl import Workbook
 from openpyxl.utils.dataframe import dataframe_to_rows
 import hydra
 import torchio as tio
-from PHNet.modlel_utils.get_logger import get_logger
-from PHNet.modlel_utils.calculate_auc_ci import calculate_auc_ci
-from PHNet.modlel_utils.LabelsmoothingBCE import LabelSmoothingLoss
+from PHNet.model_utils.get_logger import get_logger
+from PHNet.model_utils.calculate_auc_ci import calculate_auc_ci
+from PHNet.model_utils.LabelsmoothingBCE import LabelSmoothingLoss
 
 
 
