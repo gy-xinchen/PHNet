@@ -1,12 +1,12 @@
 import os
 import glob
-from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import StratifiedKFold, KFold
 import numpy as np
 import pandas as pd
 
 # 图像目录
-PAH_dir = r"G:\CMR-res\muti_center_data0927\mix_train_data\slice05_224x224\PAH"
-IPAH_dir = r"G:\CMR-res\muti_center_data0927\mix_train_data\slice05_224x224\noPAH"
+PAH_dir = r"G:\CMR-res\muti_center_data0927\mix_train_data\slice05_224x224\PH"
+IPAH_dir = r"G:\CMR-res\muti_center_data0927\mix_train_data\slice05_224x224\noPH"
 
 # 获取图像路径
 image_IPAH = glob.glob(os.path.join(IPAH_dir, "*nii.gz*"))
@@ -20,7 +20,7 @@ IPAH_id = [0] * len(image_IPAH)
 data_dicts = [{'image': image_name, 'label': label} for image_name, label in zip(image_PAH + image_IPAH, PAH_id + IPAH_id)]
 
 # 分层五折交叉验证
-floder = StratifiedKFold(n_splits=5, random_state=0, shuffle=True)
+floder = KFold(n_splits=5, random_state=0, shuffle=True)
 train_files = []
 val_files = []
 
