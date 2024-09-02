@@ -30,12 +30,12 @@ from PHNet.model_utils.LabelsmoothingBCE import LabelSmoothingLoss
 
 
 def get_outpath(cfg):
-    save_wight_path = os.path.join(cfg.save_path.path, cfg.save_path.weight)
-    save_logger_path = os.path.join(cfg.save_path.path, cfg.save_path.logger)
-    save_excle_path = os.path.join(cfg.save_path.path, cfg.save_path.excle)
-    save_png_path = os.path.join(cfg.save_path.path, cfg.save_path.png)
-    ouput_file_name = cfg.save_path.file_name
-        if not os.path.exists(save_wight_path):
+    ouput_file_name = os.path.join(cfg.save_path.path, cfg.save_path.file_name)
+    save_wight_path = os.path.join(ouput_file_name, cfg.save_path.weight)
+    save_logger_path = os.path.join(ouput_file_name, cfg.save_path.logger)
+    save_excle_path = os.path.join(ouput_file_name, cfg.save_path.excle)
+    save_png_path = os.path.join(ouput_file_name, cfg.save_path.png)
+    if not os.path.exists(save_wight_path):
         os.makedirs(save_wight_path)
     if not os.path.exists(save_logger_path):
         os.makedirs(save_logger_path)
@@ -45,7 +45,6 @@ def get_outpath(cfg):
         os.makedirs(save_png_path)
     if not os.path.exists(ouput_file_name):
         os.makedirs(ouput_file_name)
-
     return save_wight_path, save_logger_path, save_excle_path, save_png_path, ouput_file_name
 
 
