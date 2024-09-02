@@ -37,6 +37,17 @@ def get_outpath(cfg):
     save_excle_path = os.path.join(cfg.save_path.path, cfg.save_path.excle)
     save_png_path = os.path.join(cfg.save_path.path, cfg.save_path.png)
     ouput_file_name = cfg.save_path.file_name
+        if not os.path.exists(save_wight_path):
+        os.makedirs(save_wight_path)
+    if not os.path.exists(save_logger_path):
+        os.makedirs(save_logger_path)
+    if not os.path.exists(save_excle_path):
+        os.makedirs(save_excle_path)
+    if not os.path.exists(save_png_path):
+        os.makedirs(save_png_path)
+    if not os.path.exists(ouput_file_name):
+        os.makedirs(ouput_file_name)
+
     return save_wight_path, save_logger_path, save_excle_path, save_png_path, ouput_file_name
 
 
