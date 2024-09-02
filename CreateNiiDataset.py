@@ -30,9 +30,11 @@ class CreateNiiDataset():
     def __getitem__(self, item):
         if self.train:
             train_str = self.train_str[item]
-            train_value = (eval(train_str))['image'] # tuple:2
-            img_train = train_value[0]
-            train_label = train_value[1]
+            train_value = (eval(train_str))['image']
+            train_label = (eval(train_str))['label']
+            # tuple:2
+            img_train = train_value
+            train_label = train_label
             # anchor_id = train_value[2]
             img_train = sitk.ReadImage(img_train)
             data_train = sitk.GetArrayFromImage(img_train)
@@ -53,8 +55,9 @@ class CreateNiiDataset():
         else:
             val_str = self.val_str[item]
             val_value = (eval(val_str))['image']  # tuple:2
-            img_val = val_value[0]
-            val_label = val_value[1]
+            val_label = (eval(val_str))['label']
+            img_val = val_value
+            val_label = val_label
             img_val   = sitk.ReadImage(img_val)
             data_val   = sitk.GetArrayFromImage(img_val)
             if self.val_transform is not None:
@@ -80,7 +83,3 @@ class CreateNiiDataset():
             return len(self.train_str)
         else:
             return len(self.val_str)
-
-
-
-
