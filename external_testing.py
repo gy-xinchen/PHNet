@@ -5,7 +5,7 @@ import torch
 from PIL import Image
 from torchvision import transforms
 import matplotlib.pyplot as plt
-from net_hub.Densenet3D_embedding import densenet121
+from net_hub.PHNet import densenet121
 import argparse
 import SimpleITK as sitk
 import glob
