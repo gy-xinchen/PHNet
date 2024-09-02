@@ -23,7 +23,7 @@ for i in range(5):
     model_dict['AlexNet-HSATBCL'] = pd.read_excel(os.path.join(dir_path, "AlexNet_loss", "Fold{}.csv".format(fold)))
     model_dict['ResNet101-HSATBCL'] = pd.read_excel(os.path.join(dir_path, "resnet101_loss", "Fold{}.csv".format(fold)))
     model_dict['Vgg16-HSATBCL'] = pd.read_excel(os.path.join(dir_path, "Vgg16_loss", "Fold{}.csv".format(fold)))
-    model_dict['PAHNet(our)'] = pd.read_excel(os.path.join(dir_path, "densenet121_loss", "Fold{}.csv".format(fold)))
+    model_dict['PHNet(our)'] = pd.read_excel(os.path.join(dir_path, "densenet121_loss", "Fold{}.csv".format(fold)))
 
     # Iterate over models and calculate ROC curve for each fold
     for model, data in model_dict.items():
