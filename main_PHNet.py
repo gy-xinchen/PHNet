@@ -415,10 +415,11 @@ if __name__ == '__main__':
         parser = argparse.ArgumentParser()
         parser.add_argument("--Fold", type=int, default=fold_num, help="Fold == 1,2,3,4,5 ====> 0,1,2,3,4Fold")
         parser.add_argument("--save_path", type=str,
-                            default=os.path.join(save_wight_path, ouput_file_name, "Fold{}.pth".format(fold_num)))
-        parser.add_argument("--logger", type=str, default=os.path.join(save_logger_path, ouput_file_name, "Fold{}.txt".format(fold_num)))
-        parser.add_argument("--savefig", type=str, default=os.path.join(save_png_path, ouput_file_name))
-        parser.add_argument("--excle", type=str, default=os.path.join(save_excle_path, ouput_file_name, "Fold{}.csv".format(fold_num)))
+                            default=os.path.join(ouput_file_name, save_wight_path, "Fold{}.pth".format(fold_num)))
+        parser.add_argument("--logger", type=str, default=os.path.join(ouput_file_name, save_logger_path, "Fold{}.txt".format(fold_num)))
+        parser.add_argument("--savefig", type=str, default=os.path.join(ouput_file_name, save_png_path))
+        parser.add_argument("--excle", type=str, default=os.path.join(ouput_file_name, save_excle_path, "Fold{}.csv".format(fold_num)))
         parser.add_argument("--name", type=str, default=r'Fold{}'.format(fold_num))
         args = parser.parse_args()
         main()
+
