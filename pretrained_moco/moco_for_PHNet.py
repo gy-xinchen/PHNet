@@ -2,8 +2,8 @@ import torch
 import SimpleITK as sitk
 import os
 from torch.utils.data import DataLoader, Dataset
-from PHNet_model.MoCo_model import MoCoLoss, MoCo
-from PHNet_model.PHNet import densenet121
+from pretrained_moco.MoCo_model import MoCoLoss, MoCo
+from net_hub.PHNet import densenet121
 import torchio as tio
 import numpy as np
 import math
