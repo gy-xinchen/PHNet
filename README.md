@@ -31,7 +31,7 @@ Pulmonary hypertension (PH) is a fatal pulmonary vascular disease. The standard 
 
 <p align="center">
   <a href="https://github.com/gy-xinchen/PHNet/">
-    <img src="imgs/Visualization.svg" alt="Logo" width="1000" height="300">
+    <img src="imgs/Visualization.svg" alt="Logo" width="1000" height="700">
   </a>
 
 </p>
